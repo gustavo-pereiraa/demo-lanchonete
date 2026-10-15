@@ -1,0 +1,12 @@
+// Cloudflare Workers — só arquivos estáticos (sem código de servidor).
+// A pasta inteira é publicada; o que não deve ir para o ar está em .assetsignore.
+{
+  "name": "demo-lanchonete",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": ".",
+    // /admin serve admin.html, /login serve login.html etc.
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

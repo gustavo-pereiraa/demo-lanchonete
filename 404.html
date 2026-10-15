@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex">
+  <title>Página não encontrada | Lanche da Esquina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/demo.css">
+</head>
+<body class="track-page">
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/></symbol>
+  </defs>
+</svg>
+<div class="demo-bar" id="demoBar" role="region" aria-label="Aviso de demonstração">
+  <p class="demo-bar__text"><strong>Versão de demonstração</strong> · Desenvolvido por <a href="https://gridstudio.com.br" target="_blank" rel="noopener">Grid Studio Digital</a></p>
+  <button class="demo-bar__reset" id="demoReset" type="button"><svg class="icon" aria-hidden="true"><use href="#i-refresh"></use></svg>Reiniciar demo</button>
+</div>
+<main class="track-shell">
+  <section class="track-card track-missing">
+    <svg class="icon icon--lg" aria-hidden="true"><use href="#i-search"></use></svg>
+    <h1>Página não encontrada</h1>
+    <p>O endereço pode estar incompleto. Escolha por onde começar a demonstração:</p>
+    <a class="btn btn--primary" href="/">Cardápio do cliente</a>
+    <a class="btn btn--ghost" href="/login">Painel da lanchonete</a>
+  </section>
+</main>
+<script src="/js/mock-api.js"></script>
+<script src="/js/demo-bar.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+# Endereços da versão com servidor que alguém possa ter guardado
+/acompanhar/:token  /acompanhar?t=:token  301
+/admin/login        /login                301
+/admin/logout       /login                301

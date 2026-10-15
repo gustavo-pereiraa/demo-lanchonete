@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% if token %}Pedido #{{ '%03d' % number }}{% else %}Pedido não encontrado{% endif %} | Cantinho Santos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="track-page">
+{% include "_icons.html" %}
+<header class="store-header">
+  <div class="store-header__inner">
+    <a class="brand" href="/" aria-label="Cantinho Santos, voltar ao cardápio">
+      <span class="brand-mark" aria-hidden="true">CS</span>
+      <span class="brand-text"><strong>Cantinho Santos</strong><span>Acompanhe seu pedido</span></span>
+    </a>
+    <a class="btn btn--ghost btn--sm" href="/">Cardápio</a>
+  </div>
+</header>
+
+<main class="track-shell" id="trackMain" tabindex="-1"{% if token %} data-token="{{ token }}"{% endif %}>
+{% if token %}
+  <section class="track-card track-hero" id="tHero" data-status="loading" aria-labelledby="tHeadline">
+    <span class="eyebrow">Pedido <span id="tNumber">#{{ '%03d' % number }}</span></span>
+    <h1 id="tHeadline">Carregando seu pedido…</h1>
+    <p id="tHint" class="track-hint"></p>
+    <div class="track-cancelled" id="tCancelled" hidden>
+      <svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg>
+      <p>Se você não esperava por isso ou tem alguma dúvida, entre em contato com a lanchonete informando o número do pedido.</p>
+    </div>
+  </section>
+
+  <section class="track-card" aria-labelledby="tStepsTitle">
+    <h2 id="tStepsTitle" class="track-card__title">Andamento</h2>
+    <ol class="timeline" id="tSteps" aria-busy="true">
+      <li class="skeleton timeline-skeleton" aria-hidden="true"></li>
+    </ol>
+  </section>
+
+  <section class="track-card" aria-labelledby="tSummaryTitle">
+    <h2 id="tSummaryTitle" class="track-card__title">Resumo</h2>
+    <dl class="track-facts" id="tFacts"></dl>
+    <ul class="track-items" id="tItems"></ul>
+    <div class="track-totals" id="tTotals"></div>
+  </section>
+
+  <div class="form-alert" id="tError" role="alert" hidden></div>
+
+  <div class="track-foot">
+    <p id="tUpdated" class="track-updated" aria-live="polite"></p>
+    <button class="btn btn--quiet btn--sm" id="tRefresh" type="button"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-refresh"></use></svg>Atualizar agora</button>
+  </div>
+{% else %}
+  <section class="track-card track-missing">
+    <svg class="icon icon--lg" aria-hidden="true"><use href="#i-search"></use></svg>
+    <h1>Pedido não encontrado</h1>
+    <p>Confira se o link está completo. Ele chega para você logo depois que o pedido é enviado pelo site.</p>
+    <a class="btn btn--primary" href="/">Ver o cardápio</a>
+  </section>
+{% endif %}
+</main>
+{% if token %}<script src="/static/js/track.js"></script>{% endif %}
+</body>
+</html>

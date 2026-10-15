@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex">
+  <title>Painel | Cantinho Santos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="admin-body">
+{% include "_icons.html" %}
+<a class="skip-link" href="#adminMain">Pular para o conteúdo</a>
+
+<header class="admin-header">
+  <div class="admin-brand">
+    <span class="brand-mark" aria-hidden="true">CS</span>
+    <div><strong>Cantinho Santos</strong><span>Painel de gestão · {{ admin_name }}</span></div>
+  </div>
+  <div class="header-actions">
+    <button class="store-toggle" id="storeStatusBtn" type="button" aria-haspopup="dialog" aria-controls="storeModal" data-open="loading">
+      <i aria-hidden="true"></i><span id="storeStatusText">Loja</span><small id="storeStatusMode"></small>
+    </button>
+    <span class="live-indicator"><i aria-hidden="true"></i>Atualiza a cada 15 s</span>
+    <button class="btn btn--ghost btn--sm" id="refreshBtn" type="button" aria-label="Atualizar dados">
+      <svg class="icon icon--sm" aria-hidden="true"><use href="#i-refresh"></use></svg><span class="btn-text">Atualizar</span>
+    </button>
+    <a class="btn btn--quiet btn--sm" href="/admin/logout" aria-label="Sair do painel">
+      <svg class="icon icon--sm" aria-hidden="true"><use href="#i-logout"></use></svg><span class="btn-text">Sair</span>
+    </a>
+  </div>
+</header>
+
+<main class="admin-main" id="adminMain" tabindex="-1">
+  <h1 class="sr-only">Painel de gestão</h1>
+  <section class="metrics" id="metrics" aria-label="Resumo de hoje">
+    <div class="metric"><span>Faturamento hoje</span><strong id="mTotal">R$ 0,00</strong><small>Sem pedidos cancelados</small></div>
+    <div class="metric"><span>Pedidos hoje</span><strong id="mOrders">0</strong><small>Volume do dia</small></div>
+    <div class="metric"><span>Ticket médio</span><strong id="mTicket">R$ 0,00</strong><small>Por pedido</small></div>
+    <div class="metric accent"><span>Em aberto</span><strong id="mOpen">0</strong><small>Aguardando conclusão</small></div>
+  </section>
+
+  <nav class="admin-tabs" role="tablist" aria-label="Seções do painel">
+    <button class="tab active" role="tab" aria-selected="true" aria-controls="ordersTab" data-tab="orders"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-orders"></use></svg><span>Pedidos</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="dashboardTab" data-tab="dashboard" tabindex="-1"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-chart"></use></svg><span>Painel</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="closingTab" data-tab="closing" tabindex="-1"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-receipt"></use></svg><span>Fechamento</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="productsTab" data-tab="products" tabindex="-1"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-tag"></use></svg><span>Produtos</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="customersTab" data-tab="customers" tabindex="-1"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-users"></use></svg><span>Clientes</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="historyTab" data-tab="history" tabindex="-1"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-history"></use></svg><span>Histórico</span></button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="settingsTab" data-tab="settings" tabindex="-1"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-settings"></use></svg><span>Ajustes</span></button>
+  </nav>
+
+  <section id="ordersTab" role="tabpanel" aria-labelledby="ordersTabTitle">
+    <div class="section-head">
+      <div><h2 id="ordersTabTitle">Pedidos em andamento</h2><p>Arraste o pedido para outra coluna ou toque nele para ver detalhes e mudar a etapa.</p></div>
+      <button class="btn btn--primary" id="newOrderBtn" type="button"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-plus"></use></svg>Novo pedido</button>
+    </div>
+    <div class="kanban" id="kanban" aria-live="polite"></div>
+  </section>
+
+  <section id="dashboardTab" class="hidden" role="tabpanel" aria-labelledby="dashboardTabTitle">
+    <div class="section-head"><div><h2 id="dashboardTabTitle">Painel</h2><p>Como a lanchonete está indo nos últimos dias.</p></div></div>
+    <div class="data-grid">
+      <div class="panel"><div class="panel-title"><h3>Faturamento — últimos 14 dias</h3><span>Total por dia, em R$</span></div><div id="revenueChart" class="bar-chart bar-chart--dense" role="img" aria-label="Faturamento por dia nos últimos 14 dias"></div></div>
+      <div class="panel"><div class="panel-title"><h3>Produtos mais vendidos</h3><span>Últimos 30 dias</span></div><div id="topProducts"></div></div>
+      <div class="panel"><div class="panel-title"><h3>Pedidos por horário hoje</h3><span>Das 6h às 23h</span></div><div id="hoursChart" class="bar-chart bar-chart--dense" role="img" aria-label="Pedidos por horário hoje"></div></div>
+      <div class="panel"><div class="panel-title"><h3>Formas de pagamento hoje</h3><span>Faturamento por meio</span></div><div id="dashPayments"></div></div>
+    </div>
+  </section>
+
+  <section id="closingTab" class="hidden" role="tabpanel" aria-labelledby="closingTabTitle">
+    <div class="section-head"><div><h2 id="closingTabTitle">Fechamento</h2><p>Faturamento por período, comparado ao período anterior.</p></div></div>
+    <div class="periods">
+      <div class="period-group" role="group" aria-label="Período">
+        <button class="period active" type="button" data-period="hoje" aria-pressed="true">Hoje</button>
+        <button class="period" type="button" data-period="ontem" aria-pressed="false">Ontem</button>
+        <button class="period" type="button" data-period="semana" aria-pressed="false">Esta semana</button>
+        <button class="period" type="button" data-period="mes" aria-pressed="false">Este mês</button>
+        <button class="period" type="button" data-period="personalizado" aria-pressed="false">Personalizado</button>
+      </div>
+      <button class="btn btn--ghost export-btn" id="exportClosing" type="button"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-download"></use></svg>Exportar CSV</button>
+    </div>
+    <div class="custom-range hidden" id="customRange">
+      <div class="field"><label for="rangeFrom">De</label><input type="date" id="rangeFrom"></div>
+      <div class="field"><label for="rangeTo">Até</label><input type="date" id="rangeTo"></div>
+      <button class="btn btn--primary" id="applyRange" type="button">Aplicar</button>
+    </div>
+    <div class="closing-cards">
+      <div class="metric"><span>Faturamento</span><strong id="cTotal">R$ 0,00</strong><small id="cTotalChange"></small></div>
+      <div class="metric"><span>Pedidos</span><strong id="cOrders">0</strong><small id="cOrdersChange"></small></div>
+      <div class="metric"><span>Ticket médio</span><strong id="cTicket">R$ 0,00</strong><small id="cTicketChange"></small></div>
+    </div>
+    <div class="data-grid data-grid--3">
+      <div class="panel"><div class="panel-title"><h3>Recebimentos</h3><span>Por forma de pagamento</span></div><div id="payments"></div></div>
+      <div class="panel"><div class="panel-title"><h3>Canal do pedido</h3><span>Site × balcão</span></div><div id="closingChannel"></div></div>
+      <div class="panel"><div class="panel-title"><h3>Produtos vendidos</h3><span>Quantidade e faturamento</span></div><div id="closingProducts"></div></div>
+    </div>
+  </section>
+
+  <section id="productsTab" class="hidden" role="tabpanel" aria-labelledby="productsTabTitle">
+    <div class="section-head">
+      <div><h2 id="productsTabTitle">Produtos</h2><p>Gerencie os itens exibidos para os clientes.</p></div>
+      <div class="section-actions">
+        <button class="btn btn--ghost" id="newCategory" type="button"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-plus"></use></svg>Categoria</button>
+        <button class="btn btn--primary" id="newProduct" type="button"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-plus"></use></svg>Novo produto</button>
+      </div>
+    </div>
+    <div class="category-chips" id="categoryChips"></div>
+    <p class="chips-hint">Toque em uma categoria para ativá-la ou desativá-la no cardápio.</p>
+    <div class="product-toolbar">
+      <div class="period-group" role="group" aria-label="Mostrar produtos">
+        <button class="period active" type="button" data-pfilter="all" aria-pressed="true">Todos</button>
+        <button class="period" type="button" data-pfilter="soldout" aria-pressed="false">Esgotados hoje <b class="count-badge" id="soldOutCount">0</b></button>
+        <button class="period" type="button" data-pfilter="inactive" aria-pressed="false">Inativos</button>
+      </div>
+      <p class="field-hint">“Esgotado hoje” volta sozinho no dia seguinte (às 5h).</p>
+    </div>
+    <div class="product-admin" id="productAdmin"></div>
+  </section>
+
+  <section id="customersTab" class="hidden" role="tabpanel" aria-labelledby="customersTabTitle">
+    <div class="section-head"><div><h2 id="customersTabTitle">Clientes</h2><p>Quem já pediu na lanchonete, identificado pelo telefone.</p></div></div>
+    <div class="search-wrap">
+      <svg class="icon icon--sm" aria-hidden="true"><use href="#i-search"></use></svg>
+      <label class="sr-only" for="customerSearch">Buscar cliente</label>
+      <input class="input search-input" id="customerSearch" type="search" placeholder="Buscar por nome ou telefone…">
+    </div>
+    <div class="product-admin" id="customerList"></div>
+  </section>
+
+  <section id="historyTab" class="hidden" role="tabpanel" aria-labelledby="historyTabTitle">
+    <div class="section-head"><div><h2 id="historyTabTitle">Histórico</h2><p>Todos os pedidos, inclusive cancelados — nada é apagado.</p></div></div>
+    <form class="filters-bar" id="historyFilters" role="search" aria-label="Filtros do histórico">
+      <div class="field field--wide"><label for="hSearch">Pedido, cliente ou telefone</label><input id="hSearch" type="search" placeholder="Ex.: 42, Maria, 1199…"></div>
+      <div class="field field--wide"><label for="hProduct">Produto</label><input id="hProduct" placeholder="Ex.: X-Tudo"></div>
+      <div class="field"><label for="hStatus">Status</label><select id="hStatus"><option value="">Todos</option><option value="novo">Novo</option><option value="preparacao">Em preparação</option><option value="pronto">Pronto</option><option value="entrega">Em entrega</option><option value="finalizado">Finalizado</option><option value="cancelado">Cancelado</option></select></div>
+      <div class="field"><label for="hType">Tipo</label><select id="hType"><option value="">Todos</option><option value="entrega">Entrega</option><option value="retirada">Retirada</option></select></div>
+      <div class="field"><label for="hPayment">Pagamento</label><select id="hPayment"><option value="">Todos</option><option value="pix">Pix</option><option value="dinheiro">Dinheiro</option><option value="cartao">Cartão</option><option value="outro">Outro</option></select></div>
+      <div class="field"><label for="hChannel">Canal</label><select id="hChannel"><option value="">Todos</option><option value="online">Site</option><option value="presencial">Balcão</option></select></div>
+      <div class="field"><label for="hFrom">De</label><input type="date" id="hFrom"></div>
+      <div class="field"><label for="hTo">Até</label><input type="date" id="hTo"></div>
+      <div class="filters-actions">
+        <button class="btn btn--quiet" id="hClear" type="button">Limpar filtros</button>
+        <button class="btn btn--primary" id="hApply" type="submit"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-search"></use></svg>Filtrar</button>
+      </div>
+    </form>
+    <div class="product-admin" id="historyList"></div>
+  </section>
+
+  <section id="settingsTab" class="hidden" role="tabpanel" aria-labelledby="settingsTabTitle">
+    <div class="section-head"><div><h2 id="settingsTabTitle">Ajustes</h2><p>Funcionamento da loja e dados da sua conta.</p></div></div>
+    <div class="settings-grid">
+      <div class="panel store-panel">
+        <div class="panel-title"><h3>Loja agora</h3><span>Pedidos pelo site</span></div>
+        <div class="store-summary" id="storeSummary"></div>
+        <button class="btn btn--ghost btn--block" id="openStoreModal" type="button"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-power"></use></svg>Abrir ou fechar a loja</button>
+      </div>
+
+      <div class="panel hours-panel">
+        <div class="panel-title"><h3 id="hoursTitle">Horário de funcionamento</h3><span>Horário de Brasília</span></div>
+        <p class="field-hint hours-help">Fecha depois da meia-noite? Coloque, por exemplo, <strong>18:00 às 00:30</strong>: a madrugada conta como parte do dia em que a loja abriu.</p>
+        <form id="hoursForm" aria-labelledby="hoursTitle" novalidate>
+          <div class="hours-list" id="hoursList"></div>
+          <div class="form-alert" id="hoursError" role="alert" hidden></div>
+          <button class="btn btn--primary btn--block btn--lg" id="saveHours" type="submit">Salvar horários</button>
+        </form>
+      </div>
+
+      <div class="panel account-panel" id="accountPanel">
+        <div class="panel-title"><h3 id="accountTitle">Minha conta</h3><span>{{ admin_name }}</span></div>
+        <p class="field-hint">Troque a senha de acesso ao painel. Use pelo menos 8 caracteres — uma frase curta é fácil de lembrar e difícil de adivinhar.</p>
+        <form id="passwordForm" class="password-form" aria-labelledby="accountTitle" novalidate>
+          <div class="field">
+            <label for="pwCurrent">Senha atual</label>
+            <div class="password-input">
+              <input id="pwCurrent" name="current_password" type="password" autocomplete="current-password" required maxlength="128" aria-describedby="pwCurrentErr">
+              <button class="icon-btn" type="button" data-reveal="pwCurrent" aria-label="Mostrar senha" aria-pressed="false"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button>
+            </div>
+            <p class="field-error" id="pwCurrentErr"></p>
+          </div>
+          <div class="field">
+            <label for="pwNew">Nova senha</label>
+            <div class="password-input">
+              <input id="pwNew" name="new_password" type="password" autocomplete="new-password" required minlength="8" maxlength="128" aria-describedby="pwNewHint pwNewErr">
+              <button class="icon-btn" type="button" data-reveal="pwNew" aria-label="Mostrar senha" aria-pressed="false"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button>
+            </div>
+            <p class="field-hint" id="pwNewHint">Mínimo de 8 caracteres, diferente da atual.</p>
+            <p class="field-error" id="pwNewErr"></p>
+          </div>
+          <div class="field">
+            <label for="pwConfirm">Confirme a nova senha</label>
+            <div class="password-input">
+              <input id="pwConfirm" name="confirm_password" type="password" autocomplete="new-password" required maxlength="128" aria-describedby="pwConfirmErr">
+              <button class="icon-btn" type="button" data-reveal="pwConfirm" aria-label="Mostrar senha" aria-pressed="false"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button>
+            </div>
+            <p class="field-error" id="pwConfirmErr"></p>
+          </div>
+          <div class="form-success" id="pwSuccess" role="status" hidden></div>
+          <div class="form-alert" id="pwError" role="alert" hidden></div>
+          <button class="btn btn--primary btn--block btn--lg" id="savePassword" type="submit">Trocar senha</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal order-modal" id="orderModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+  <div class="modal-head">
+    <div><span class="eyebrow">Detalhes</span><h2 id="orderTitle">Pedido</h2></div>
+    <button class="icon-btn" id="closeOrder" type="button" aria-label="Fechar detalhes"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg></button>
+  </div>
+  <div id="orderDetail"></div>
+  <div class="order-actions" id="orderActions"></div>
+</div>
+
+<div class="modal" id="productModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="productModalTitle">
+  <div class="modal-head">
+    <div><span class="eyebrow">Cardápio</span><h2 id="productModalTitle">Novo produto</h2></div>
+    <button class="icon-btn" id="closeProduct" type="button" aria-label="Fechar"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg></button>
+  </div>
+  <form id="productForm">
+    <input type="hidden" name="id">
+    <div class="field"><label for="pfName">Nome <span class="req" aria-hidden="true">*</span></label><input id="pfName" name="name" required maxlength="120"></div>
+    <div class="field"><label for="pfDesc">Descrição</label><input id="pfDesc" name="description" maxlength="255"></div>
+    <div class="form-grid">
+      <div class="field"><label for="productCategory">Categoria</label><select name="category_id" id="productCategory"></select></div>
+      <div class="field"><label for="pfPrice">Preço (R$) <span class="req" aria-hidden="true">*</span></label><input id="pfPrice" name="price" type="number" inputmode="decimal" min="0" step="0.01" required></div>
+    </div>
+    <div class="field"><label for="pfImage">URL da imagem <span class="optional">(opcional)</span></label><input id="pfImage" name="image_url" maxlength="500" placeholder="https://…"></div>
+    <button class="btn btn--primary btn--block btn--lg" type="submit">Salvar produto</button>
+  </form>
+</div>
+
+<div class="modal" id="categoryModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="categoryModalTitle">
+  <div class="modal-head">
+    <div><span class="eyebrow">Cardápio</span><h2 id="categoryModalTitle">Nova categoria</h2></div>
+    <button class="icon-btn" id="closeCategory" type="button" aria-label="Fechar"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg></button>
+  </div>
+  <form id="categoryForm">
+    <div class="field"><label for="cfName">Nome <span class="req" aria-hidden="true">*</span></label><input id="cfName" name="name" required maxlength="80"></div>
+    <button class="btn btn--primary btn--block btn--lg" type="submit">Salvar categoria</button>
+  </form>
+</div>
+
+<div class="modal new-order-modal" id="newOrderModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="newOrderTitle">
+  <div class="modal-head">
+    <div><span class="eyebrow">Balcão / telefone</span><h2 id="newOrderTitle">Novo pedido presencial</h2></div>
+    <button class="icon-btn" id="closeNewOrder" type="button" aria-label="Fechar"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg></button>
+  </div>
+  <p class="modal-intro">Pedido anotado pelo atendente — entra no Kanban e no fechamento como um pedido do site, marcado como “Balcão”.</p>
+  <div class="new-order-body">
+    <div class="new-order-products">
+      <div class="category-tabs" id="noCategoryTabs" role="group" aria-label="Categorias"></div>
+      <div class="no-product-list" id="noProductList"></div>
+    </div>
+    <div class="new-order-form">
+      <h3 class="no-cart-title">Itens do pedido</h3>
+      <div class="no-cart" id="noCart" aria-live="polite"></div>
+      <div class="form-grid">
+        <div class="field"><label for="noName">Nome <span class="optional">(opcional)</span></label><input id="noName" placeholder="Cliente Balcão" maxlength="120"></div>
+        <div class="field"><label for="noPhone">Telefone <span class="optional">(opcional)</span></label><input id="noPhone" type="tel" inputmode="tel" placeholder="(00) 00000-0000" maxlength="30"></div>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label for="noOrderType">Tipo</label><select id="noOrderType"><option value="retirada">Retirada / local</option><option value="entrega">Entrega</option></select></div>
+        <div class="field"><label for="noPayment">Pagamento</label><select id="noPayment"><option value="pix">Pix</option><option value="dinheiro">Dinheiro</option><option value="cartao">Cartão</option><option value="outro">Outro</option></select></div>
+      </div>
+      <div class="field" id="noAddressField" style="display:none"><label for="noAddress">Endereço <span class="req" aria-hidden="true">*</span></label><input id="noAddress" placeholder="Rua, número e bairro" maxlength="255"></div>
+      <div class="field" id="noChangeField" style="display:none"><label for="noChangeFor">Troco para <span class="optional">(opcional)</span></label><input id="noChangeFor" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Ex.: 50"></div>
+      <div class="field"><label for="noNotes">Observação <span class="optional">(opcional)</span></label><textarea id="noNotes" rows="2" maxlength="500"></textarea></div>
+      <button class="btn btn--primary btn--block btn--lg" id="submitNewOrder" type="button">Registrar pedido</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal store-modal" id="storeModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="storeModalTitle">
+  <div class="modal-head">
+    <div><span class="eyebrow">Loja</span><h2 id="storeModalTitle">Abrir ou fechar</h2></div>
+    <button class="icon-btn" id="closeStore" type="button" aria-label="Fechar"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg></button>
+  </div>
+  <p class="store-now" id="storeNow" aria-live="polite"></p>
+  <div class="mode-options" role="group" aria-label="Modo da loja">
+    <button class="mode-option mode-option--closed" type="button" data-mode="closed" aria-pressed="false">
+      <svg class="icon" aria-hidden="true"><use href="#i-power"></use></svg>
+      <span><strong>Fechar agora</strong><small>Ninguém consegue pedir pelo site até você reabrir.</small></span>
+    </button>
+    <button class="mode-option mode-option--open" type="button" data-mode="open" aria-pressed="false">
+      <svg class="icon" aria-hidden="true"><use href="#i-store"></use></svg>
+      <span><strong>Abrir agora</strong><small>Aceita pedidos mesmo fora do horário.</small></span>
+    </button>
+    <button class="mode-option" type="button" data-mode="auto" aria-pressed="false">
+      <svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>
+      <span><strong>Seguir o horário</strong><small>Abre e fecha sozinha nos horários da semana.</small></span>
+    </button>
+  </div>
+  <form id="storeMessageForm" class="store-message-form">
+    <div class="field">
+      <label for="storeMessage">Recado para os clientes quando estiver fechada <span class="optional">(opcional)</span></label>
+      <input id="storeMessage" name="message" maxlength="160" placeholder="Ex.: Hoje fechamos mais cedo. Voltamos amanhã!" aria-describedby="storeMessageHint">
+      <p class="field-hint" id="storeMessageHint">Aparece no topo do cardápio junto com o horário de abertura.</p>
+    </div>
+    <div class="store-modal-actions">
+      <button class="btn btn--quiet" id="goToHours" type="button"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-settings"></use></svg>Horários da semana</button>
+      <button class="btn btn--ghost" id="saveStoreMessage" type="submit">Salvar recado</button>
+    </div>
+  </form>
+</div>
+
+<div class="overlay" id="adminOverlay"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="printTicket"></div>
+<script src="/static/js/admin.js"></script>
+</body>
+</html>

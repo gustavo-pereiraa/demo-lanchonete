@@ -1,0 +1,61 @@
+/* =====================================================================
+   Versão de demonstração — faixa no topo e ajustes de posição.
+   A faixa é fixa; --demo-bar-h (medida pelo js/demo-bar.js) desloca o
+   corpo da página e todos os elementos "grudados" no topo, para que ela
+   nunca cubra conteúdo. Modais e o painel do carrinho ficam ACIMA dela.
+   ===================================================================== */
+:root { --demo-bar-h: 34px; }
+
+body { padding-top: var(--demo-bar-h); }
+
+.demo-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 25;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-3);
+  min-height: 34px; padding: 5px var(--sp-4);
+  background: var(--c-ink); color: rgba(255, 255, 255, 0.86);
+  font-size: var(--fs-xs); line-height: 1.35;
+}
+.demo-bar__text { margin: 0; min-width: 0; }
+.demo-bar__text strong { color: #fff; font-weight: 600; }
+.demo-bar a { color: #fff; font-weight: 600; text-underline-offset: 2px; }
+.demo-bar a:hover { color: #ffd9c7; }
+.demo-bar :focus-visible { outline-color: #fff; }
+.demo-bar__reset {
+  flex: none; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 26px; padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35); border-radius: var(--r-pill);
+  background: transparent; color: #fff; font-size: var(--fs-xs); font-weight: 600; white-space: nowrap;
+}
+.demo-bar__reset:hover { background: rgba(255, 255, 255, 0.12); }
+.demo-bar__reset .icon { width: 14px; height: 14px; }
+
+/* Elementos grudados no topo descem junto com a faixa */
+.store-header, .admin-header { top: var(--demo-bar-h); }
+.category-nav, .admin-tabs { top: calc(var(--header-h) + var(--demo-bar-h)); }
+.menu-category { scroll-margin-top: calc(var(--header-h) + var(--demo-bar-h) + 64px); }
+.skip-link:focus { top: calc(var(--demo-bar-h) + var(--sp-2)); }
+.login-page { padding-top: calc(var(--demo-bar-h) + var(--sp-6)); }
+
+@media (min-width: 1024px) {
+  .cart-panel {
+    top: calc(var(--header-h) + var(--demo-bar-h) + 76px);
+    max-height: calc(100vh - var(--header-h) - var(--demo-bar-h) - 96px);
+  }
+}
+
+/* Avisos discretos da demonstração */
+.demo-note {
+  display: flex; gap: var(--sp-2); align-items: flex-start;
+  margin-top: var(--sp-3); font-size: var(--fs-sm); color: var(--c-ink-3); line-height: 1.45;
+}
+.demo-note .icon { margin-top: 2px; color: var(--c-ink-3); }
+.demo-note a { font-weight: 600; }
+.section-head .demo-note { margin-top: var(--sp-1); }
+.store-modal .demo-note { margin: calc(var(--sp-2) * -1) 0 var(--sp-4); }
+.track-found { display: contents; }
+.track-shell > .demo-note, .track-found > .demo-note { margin-top: 0; }
+
+@media print {
+  body { padding-top: 0; }
+  .demo-bar { display: none; }
+}

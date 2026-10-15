@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Demonstração do sistema de pedidos Lanche da Esquina, desenvolvido pela Grid Studio Digital.">
+  <title>Cardápio | Lanche da Esquina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/demo.css">
+</head>
+<body class="customer-page">
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="m19 6-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s-7-6.6-7-12a7 7 0 0 1 14 0c0 5.4-7 12-7 12Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-store" viewBox="0 0 24 24"><path d="m3 9 1.6-5h14.8L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9.5 20v-5h5v5"/></symbol>
+    <symbol id="i-pix" viewBox="0 0 24 24"><path d="m12 3 9 9-9 9-9-9Z"/><path d="m8 12 4-4 4 4-4 4Z"/></symbol>
+    <symbol id="i-cash" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></symbol>
+    <symbol id="i-dots" viewBox="0 0 24 24"><path d="M6 12h.01M12 12h.01M18 12h.01"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-orders" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M8 11h8M8 15h5"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 16v-5M13 16V8M18 16v-3"/></symbol>
+    <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M5 2v20l2.5-1.5L10 22l2-1.5 2 1.5 2.5-1.5L19 22V2l-2.5 1.5L14 2l-2 1.5L10 2 7.5 3.5Z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><path d="M7.5 7.5h.01"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3.5 2"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/></symbol>
+    <symbol id="i-wifi-off" viewBox="0 0 24 24"><path d="m2 2 20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0M5 12.9a10 10 0 0 1 5.2-2.8M19 12.9a10 10 0 0 0-2.2-1.6M2 8.8a15 15 0 0 1 4.2-2.6M22 8.8A15 15 0 0 0 11 5M12 20h.01"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"/><path d="M1 14h6M9 8h6M17 16h6"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.9 4.2A10 10 0 0 1 12 4c6.5 0 10 8 10 8a17 17 0 0 1-2.4 3.4M6.6 6.6A17 17 0 0 0 2 12s3.5 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="m2 2 20 20"/></symbol>
+  </defs>
+</svg>
+<a class="skip-link" href="#menu">Pular para o cardápio</a>
+<div class="demo-bar" id="demoBar" role="region" aria-label="Aviso de demonstração">
+  <p class="demo-bar__text"><strong>Versão de demonstração</strong> · Desenvolvido por <a href="https://gridstudio.com.br" target="_blank" rel="noopener">Grid Studio Digital</a></p>
+  <button class="demo-bar__reset" id="demoReset" type="button"><svg class="icon" aria-hidden="true"><use href="#i-refresh"></use></svg>Reiniciar demo</button>
+</div>
+
+<header class="store-header">
+  <div class="store-header__inner">
+    <a class="brand" href="/" aria-label="Lanche da Esquina, início">
+      <span class="brand-mark" aria-hidden="true">LE</span>
+      <span class="brand-text"><strong>Lanche da Esquina</strong><span>Pastéis · Lanches · Batatas recheadas</span></span>
+    </a>
+    <button class="cart-button" id="openCart" type="button" aria-controls="cartPanel" aria-label="Abrir meu pedido, 0 itens">
+      <svg class="icon" aria-hidden="true"><use href="#i-bag"></use></svg>
+      <span class="cart-button__label">Meu pedido</span>
+      <b id="cartCount" class="is-empty" aria-hidden="true">0</b>
+    </button>
+  </div>
+</header>
+
+<main id="menu" class="customer-shell" tabindex="-1">
+  <a class="active-order" id="activeOrder" href="/" hidden>
+    <svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>
+    <span><strong>Você tem um pedido em andamento</strong><small id="activeOrderText">Toque para acompanhar</small></span>
+    <span class="active-order__cta">Acompanhar<svg class="icon icon--sm" aria-hidden="true"><use href="#i-chevron-right"></use></svg></span>
+  </a>
+
+  <div class="store-closed" id="storeClosed" role="status" hidden>
+    <svg class="icon" aria-hidden="true"><use href="#i-moon"></use></svg>
+    <div>
+      <strong id="storeClosedTitle">Estamos fechados agora.</strong>
+      <span id="storeClosedText"></span>
+      <span class="store-closed__msg" id="storeClosedMsg" hidden></span>
+    </div>
+  </div>
+
+  <section class="store-intro" aria-labelledby="introTitle">
+    <h1 id="introTitle">Pastéis, lanches e batatas recheadas, feitos na hora.</h1>
+    <ul class="intro-facts">
+      <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-pin"></use></svg>Entrega ou retirada</li>
+      <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-card"></use></svg>Pix, cartão ou dinheiro</li>
+    </ul>
+    <p class="demo-note"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-alert"></use></svg><span>Os pedidos desta demonstração são fictícios e não são enviados para nenhuma lanchonete. Quer ver o outro lado? <a href="/login" target="_blank" rel="noopener">Abra o painel da lanchonete</a> em outra aba e acompanhe seu pedido chegando.</span></p>
+  </section>
+
+  <nav class="category-nav" id="categoryNav" aria-label="Categorias do cardápio">
+    <div class="category-tabs" id="categoryTabs"></div>
+  </nav>
+
+  <div class="customer-content">
+    <section class="menu-section" aria-label="Cardápio">
+      <div id="productGrid" class="menu-list" aria-busy="true"></div>
+    </section>
+
+    <aside class="cart-panel" id="cartPanel" aria-labelledby="cartTitle" tabindex="-1">
+      <div class="cart-head">
+        <h2 id="cartTitle">Seu pedido</h2>
+        <button class="icon-btn" id="closeCart" type="button" aria-label="Fechar pedido">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+        </button>
+      </div>
+      <ul id="cartItems" class="cart-items" aria-live="polite"></ul>
+      <div class="cart-footer">
+        <div class="summary-row"><span>Subtotal</span><strong id="cartTotal">R$ 0,00</strong></div>
+        <p class="hint">A taxa de entrega, se houver, aparece na próxima etapa.</p>
+        <p class="cart-note" id="cartGoneNote" hidden><svg class="icon icon--sm" aria-hidden="true"><use href="#i-alert"></use></svg><span>Algum item do seu pedido acabou. Remova-o para continuar — o resto continua aqui.</span></p>
+        <p class="cart-note" id="cartClosedNote" hidden><svg class="icon icon--sm" aria-hidden="true"><use href="#i-moon"></use></svg><span>Estamos fechados. Seu pedido fica guardado aqui e pode ser enviado quando abrirmos.</span></p>
+        <button class="btn btn--primary btn--block btn--lg" id="checkoutBtn" type="button">
+          Continuar <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+        </button>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div class="cart-bar" id="cartBar" hidden>
+  <button class="cart-bar__btn" id="cartBarBtn" type="button" aria-controls="cartPanel">
+    <span class="cart-bar__count" id="cartBarCount">0</span>
+    <span class="cart-bar__label">Ver pedido</span>
+    <strong class="cart-bar__total" id="cartBarTotal">R$ 0,00</strong>
+  </button>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="modal checkout-modal" id="checkoutModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+  <div class="modal-head">
+    <div><h2 id="checkoutTitle">Finalizar pedido</h2><p>Campos com <span class="req">*</span> são obrigatórios.</p></div>
+    <button class="icon-btn" id="closeCheckout" type="button" aria-label="Fechar finalização">
+      <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+    </button>
+  </div>
+  <form id="checkoutForm" novalidate>
+    <div class="modal-body">
+      <fieldset class="form-block">
+        <legend>Seus dados</legend>
+        <div class="form-grid">
+          <div class="field">
+            <label for="fName">Nome <span class="req" aria-hidden="true">*</span></label>
+            <input id="fName" name="name" required maxlength="120" autocomplete="name" placeholder="Como podemos te chamar?" aria-describedby="fNameErr">
+            <p class="field-error" id="fNameErr"></p>
+          </div>
+          <div class="field">
+            <label for="fPhone">Telefone / WhatsApp <span class="req" aria-hidden="true">*</span></label>
+            <input id="fPhone" name="phone" type="tel" inputmode="tel" required maxlength="30" autocomplete="tel" placeholder="(00) 00000-0000" aria-describedby="fPhoneErr">
+            <p class="field-error" id="fPhoneErr"></p>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-block">
+        <legend>Como você quer receber?</legend>
+        <div class="choice-group choice-group--2">
+          <label class="choice">
+            <input type="radio" name="order_type" value="entrega" checked>
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
+              <span class="choice__text"><strong>Entrega</strong><small id="feeLabel">Taxa na próxima linha</small></span></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="order_type" value="retirada">
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-store"></use></svg>
+              <span class="choice__text"><strong>Retirada</strong><small>Sem taxa</small></span></span>
+          </label>
+        </div>
+        <div class="field" id="addressField">
+          <label for="fAddress">Endereço de entrega <span class="req" aria-hidden="true">*</span></label>
+          <input id="fAddress" name="address" required maxlength="255" autocomplete="street-address" placeholder="Rua, número, bairro e complemento" aria-describedby="fAddressErr">
+          <p class="field-error" id="fAddressErr"></p>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-block">
+        <legend>Forma de pagamento</legend>
+        <div class="choice-group choice-group--4">
+          <label class="choice"><input type="radio" name="payment_method" value="pix" checked>
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-pix"></use></svg><span class="choice__text"><strong>Pix</strong></span></span></label>
+          <label class="choice"><input type="radio" name="payment_method" value="dinheiro">
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-cash"></use></svg><span class="choice__text"><strong>Dinheiro</strong></span></span></label>
+          <label class="choice"><input type="radio" name="payment_method" value="cartao">
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-card"></use></svg><span class="choice__text"><strong>Cartão</strong></span></span></label>
+          <label class="choice"><input type="radio" name="payment_method" value="outro">
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-dots"></use></svg><span class="choice__text"><strong>Outro</strong></span></span></label>
+        </div>
+        <div class="field" id="changeField" hidden>
+          <label for="fChange">Troco para quanto? <span class="optional">(opcional)</span></label>
+          <input id="fChange" name="change_for" type="number" inputmode="decimal" min="0" max="9999" step="0.01" placeholder="Ex.: 50" aria-describedby="fChangeErr fChangeHint">
+          <p class="field-hint" id="fChangeHint">Deixe em branco se não precisar de troco.</p>
+          <p class="field-error" id="fChangeErr"></p>
+        </div>
+      </fieldset>
+
+      <div class="form-block">
+        <div class="field">
+          <label for="fNotes">Observações <span class="optional">(opcional)</span></label>
+          <textarea id="fNotes" name="notes" rows="3" maxlength="500" placeholder="Ex.: ponto de referência, tocar a campainha…"></textarea>
+        </div>
+      </div>
+
+      <section class="form-block" aria-labelledby="summaryTitle">
+        <h3 class="form-block__title" id="summaryTitle">Resumo</h3>
+        <div class="checkout-summary" id="checkoutSummary"></div>
+      </section>
+
+      <div class="form-alert" id="checkoutError" role="alert" hidden></div>
+
+      <p class="privacy-note">Usamos seu nome, telefone e endereço só para preparar, confirmar e entregar este pedido — nada além disso.</p>
+      <p class="privacy-note">Demonstração: o pedido fica salvo só neste navegador. Não use dados reais.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn--primary btn--block btn--lg" type="submit" id="submitOrder">Enviar pedido</button>
+    </div>
+  </form>
+</div>
+
+<div class="modal success-modal" id="successModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="successTitle" aria-describedby="successText">
+  <div class="success-icon"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></div>
+  <h2 id="successTitle">Pedido enviado!</h2>
+  <p class="success-number">Número do pedido<strong id="successNumber">#000</strong></p>
+  <p id="successText"></p>
+  <div class="success-actions">
+    <a class="btn btn--primary btn--block btn--lg" id="trackLink" href="/" hidden><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>Acompanhar meu pedido</a>
+    <button class="btn btn--ghost btn--block btn--lg" id="closeSuccess" type="button">Voltar ao cardápio</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/js/mock-api.js"></script>
+<script src="/js/demo-bar.js"></script>
+<script src="/js/customer.js"></script>
+</body>
+</html>

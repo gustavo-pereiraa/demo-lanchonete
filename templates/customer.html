@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Cardápio do Cantinho Santos: pastéis, lanches e batatas recheadas. Peça para entrega ou retirada.">
+  <title>Cardápio | Cantinho Santos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="customer-page">
+{% include "_icons.html" %}
+<a class="skip-link" href="#menu">Pular para o cardápio</a>
+
+<header class="store-header">
+  <div class="store-header__inner">
+    <a class="brand" href="/" aria-label="Cantinho Santos, início">
+      <span class="brand-mark" aria-hidden="true">CS</span>
+      <span class="brand-text"><strong>Cantinho Santos</strong><span>Pastéis · Lanches · Batatas recheadas</span></span>
+    </a>
+    <button class="cart-button" id="openCart" type="button" aria-controls="cartPanel" aria-label="Abrir meu pedido, 0 itens">
+      <svg class="icon" aria-hidden="true"><use href="#i-bag"></use></svg>
+      <span class="cart-button__label">Meu pedido</span>
+      <b id="cartCount" class="is-empty" aria-hidden="true">0</b>
+    </button>
+  </div>
+</header>
+
+<main id="menu" class="customer-shell" tabindex="-1">
+  <a class="active-order" id="activeOrder" href="/" hidden>
+    <svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>
+    <span><strong>Você tem um pedido em andamento</strong><small id="activeOrderText">Toque para acompanhar</small></span>
+    <span class="active-order__cta">Acompanhar<svg class="icon icon--sm" aria-hidden="true"><use href="#i-chevron-right"></use></svg></span>
+  </a>
+
+  <div class="store-closed" id="storeClosed" role="status" hidden>
+    <svg class="icon" aria-hidden="true"><use href="#i-moon"></use></svg>
+    <div>
+      <strong id="storeClosedTitle">Estamos fechados agora.</strong>
+      <span id="storeClosedText"></span>
+      <span class="store-closed__msg" id="storeClosedMsg" hidden></span>
+    </div>
+  </div>
+
+  <section class="store-intro" aria-labelledby="introTitle">
+    <h1 id="introTitle">Pastéis, lanches e batatas recheadas, feitos na hora.</h1>
+    <ul class="intro-facts">
+      <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-pin"></use></svg>Entrega ou retirada</li>
+      <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-card"></use></svg>Pix, cartão ou dinheiro</li>
+    </ul>
+  </section>
+
+  <nav class="category-nav" id="categoryNav" aria-label="Categorias do cardápio">
+    <div class="category-tabs" id="categoryTabs"></div>
+  </nav>
+
+  <div class="customer-content">
+    <section class="menu-section" aria-label="Cardápio">
+      <div id="productGrid" class="menu-list" aria-busy="true"></div>
+    </section>
+
+    <aside class="cart-panel" id="cartPanel" aria-labelledby="cartTitle" tabindex="-1">
+      <div class="cart-head">
+        <h2 id="cartTitle">Seu pedido</h2>
+        <button class="icon-btn" id="closeCart" type="button" aria-label="Fechar pedido">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+        </button>
+      </div>
+      <ul id="cartItems" class="cart-items" aria-live="polite"></ul>
+      <div class="cart-footer">
+        <div class="summary-row"><span>Subtotal</span><strong id="cartTotal">R$ 0,00</strong></div>
+        <p class="hint">A taxa de entrega, se houver, aparece na próxima etapa.</p>
+        <p class="cart-note" id="cartGoneNote" hidden><svg class="icon icon--sm" aria-hidden="true"><use href="#i-alert"></use></svg><span>Algum item do seu pedido acabou. Remova-o para continuar — o resto continua aqui.</span></p>
+        <p class="cart-note" id="cartClosedNote" hidden><svg class="icon icon--sm" aria-hidden="true"><use href="#i-moon"></use></svg><span>Estamos fechados. Seu pedido fica guardado aqui e pode ser enviado quando abrirmos.</span></p>
+        <button class="btn btn--primary btn--block btn--lg" id="checkoutBtn" type="button">
+          Continuar <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+        </button>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div class="cart-bar" id="cartBar" hidden>
+  <button class="cart-bar__btn" id="cartBarBtn" type="button" aria-controls="cartPanel">
+    <span class="cart-bar__count" id="cartBarCount">0</span>
+    <span class="cart-bar__label">Ver pedido</span>
+    <strong class="cart-bar__total" id="cartBarTotal">R$ 0,00</strong>
+  </button>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="modal checkout-modal" id="checkoutModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+  <div class="modal-head">
+    <div><h2 id="checkoutTitle">Finalizar pedido</h2><p>Campos com <span class="req">*</span> são obrigatórios.</p></div>
+    <button class="icon-btn" id="closeCheckout" type="button" aria-label="Fechar finalização">
+      <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+    </button>
+  </div>
+  <form id="checkoutForm" novalidate>
+    <div class="modal-body">
+      <fieldset class="form-block">
+        <legend>Seus dados</legend>
+        <div class="form-grid">
+          <div class="field">
+            <label for="fName">Nome <span class="req" aria-hidden="true">*</span></label>
+            <input id="fName" name="name" required maxlength="120" autocomplete="name" placeholder="Como podemos te chamar?" aria-describedby="fNameErr">
+            <p class="field-error" id="fNameErr"></p>
+          </div>
+          <div class="field">
+            <label for="fPhone">Telefone / WhatsApp <span class="req" aria-hidden="true">*</span></label>
+            <input id="fPhone" name="phone" type="tel" inputmode="tel" required maxlength="30" autocomplete="tel" placeholder="(00) 00000-0000" aria-describedby="fPhoneErr">
+            <p class="field-error" id="fPhoneErr"></p>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-block">
+        <legend>Como você quer receber?</legend>
+        <div class="choice-group choice-group--2">
+          <label class="choice">
+            <input type="radio" name="order_type" value="entrega" checked>
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
+              <span class="choice__text"><strong>Entrega</strong><small id="feeLabel">Taxa na próxima linha</small></span></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="order_type" value="retirada">
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-store"></use></svg>
+              <span class="choice__text"><strong>Retirada</strong><small>Sem taxa</small></span></span>
+          </label>
+        </div>
+        <div class="field" id="addressField">
+          <label for="fAddress">Endereço de entrega <span class="req" aria-hidden="true">*</span></label>
+          <input id="fAddress" name="address" required maxlength="255" autocomplete="street-address" placeholder="Rua, número, bairro e complemento" aria-describedby="fAddressErr">
+          <p class="field-error" id="fAddressErr"></p>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-block">
+        <legend>Forma de pagamento</legend>
+        <div class="choice-group choice-group--4">
+          <label class="choice"><input type="radio" name="payment_method" value="pix" checked>
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-pix"></use></svg><span class="choice__text"><strong>Pix</strong></span></span></label>
+          <label class="choice"><input type="radio" name="payment_method" value="dinheiro">
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-cash"></use></svg><span class="choice__text"><strong>Dinheiro</strong></span></span></label>
+          <label class="choice"><input type="radio" name="payment_method" value="cartao">
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-card"></use></svg><span class="choice__text"><strong>Cartão</strong></span></span></label>
+          <label class="choice"><input type="radio" name="payment_method" value="outro">
+            <span class="choice__box"><svg class="icon" aria-hidden="true"><use href="#i-dots"></use></svg><span class="choice__text"><strong>Outro</strong></span></span></label>
+        </div>
+        <div class="field" id="changeField" hidden>
+          <label for="fChange">Troco para quanto? <span class="optional">(opcional)</span></label>
+          <input id="fChange" name="change_for" type="number" inputmode="decimal" min="0" max="9999" step="0.01" placeholder="Ex.: 50" aria-describedby="fChangeErr fChangeHint">
+          <p class="field-hint" id="fChangeHint">Deixe em branco se não precisar de troco.</p>
+          <p class="field-error" id="fChangeErr"></p>
+        </div>
+      </fieldset>
+
+      <div class="form-block">
+        <div class="field">
+          <label for="fNotes">Observações <span class="optional">(opcional)</span></label>
+          <textarea id="fNotes" name="notes" rows="3" maxlength="500" placeholder="Ex.: ponto de referência, tocar a campainha…"></textarea>
+        </div>
+      </div>
+
+      <section class="form-block" aria-labelledby="summaryTitle">
+        <h3 class="form-block__title" id="summaryTitle">Resumo</h3>
+        <div class="checkout-summary" id="checkoutSummary"></div>
+      </section>
+
+      <div class="form-alert" id="checkoutError" role="alert" hidden></div>
+
+      <p class="privacy-note">Usamos seu nome, telefone e endereço só para preparar, confirmar e entregar este pedido — nada além disso.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn--primary btn--block btn--lg" type="submit" id="submitOrder">Enviar pedido</button>
+    </div>
+  </form>
+</div>
+
+<div class="modal success-modal" id="successModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="successTitle" aria-describedby="successText">
+  <div class="success-icon"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></div>
+  <h2 id="successTitle">Pedido enviado!</h2>
+  <p class="success-number">Número do pedido<strong id="successNumber">#000</strong></p>
+  <p id="successText"></p>
+  <div class="success-actions">
+    <a class="btn btn--primary btn--block btn--lg" id="trackLink" href="/" hidden><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>Acompanhar meu pedido</a>
+    <button class="btn btn--ghost btn--block btn--lg" id="closeSuccess" type="button">Voltar ao cardápio</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/static/js/customer.js"></script>
+</body>
+</html>
