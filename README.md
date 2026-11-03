@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://gustavo-pereiraa.github.io/demo-lanchonete/"><img src="https://img.shields.io/badge/Abrir_demo-cardápio-B5401E?style=for-the-badge"/></a>
-  <a href="https://gustavo-pereiraa.github.io/demo-lanchonete/login"><img src="https://img.shields.io/badge/Abrir_demo-painel-2B1D16?style=for-the-badge"/></a>
+  <a href="https://gustavo-pereiraa.github.io/demo-lanchonete/admin"><img src="https://img.shields.io/badge/Abrir_demo-painel_(%2Fadmin)-2B1D16?style=for-the-badge"/></a>
 </p>
 
 <p align="center">
@@ -34,7 +34,8 @@ O sistema real está em produção (Flask + PostgreSQL). **Este repositório tra
 ## Como testar a demo
 
 1. Abra o **[cardápio](https://gustavo-pereiraa.github.io/demo-lanchonete/)**, adicione itens e finalize um pedido (pode usar dados inventados).
-2. Em outra aba, abra o **[painel](https://gustavo-pereiraa.github.io/demo-lanchonete/login)** e clique em **Entrar como demonstração**. Não precisa de e-mail nem senha.
+2. Em outra aba, abra o **painel da loja** acrescentando **`/admin`** ao fim do endereço:
+   **[gustavo-pereiraa.github.io/demo-lanchonete/admin](https://gustavo-pereiraa.github.io/demo-lanchonete/admin)**. É ali que ficam todas as funcionalidades de gestão. Não precisa de e-mail nem senha.
 3. Veja seu pedido chegar na coluna **Novo** do Kanban e arraste-o pelas etapas. A página de acompanhamento do cliente também acompanha a mudança.
 4. Explore as abas **Painel**, **Fechamento**, **Produtos**, **Clientes** e **Histórico**.
 
