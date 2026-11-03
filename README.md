@@ -1,109 +1,65 @@
-# Lanchonete MVP
+<h1 align="center">Sistema de Pedidos para Lanchonete</h1>
 
-Sistema de pedidos para uma lanchonete de bairro: cardápio público para o
-cliente + painel administrativo (Kanban de pedidos, produtos, categorias,
-clientes, histórico e relatórios de faturamento).
+<p align="center">
+  Cardápio online para o cliente + painel de gestão com Kanban de pedidos, dashboard e fechamento de caixa.<br>
+  Desenvolvido para uma lanchonete de bairro real, que recebia pedidos pelo WhatsApp e controlava tudo à mão.
+</p>
 
-**Stack:** HTML + CSS + JavaScript puro no front-end, Python (Flask +
-SQLAlchemy) no back-end, banco SQLite por padrão (arquivo local, zero
-configuração).
+<p align="center">
+  <a href="https://gustavo-pereiraa.github.io/demo-lanchonete/"><img src="https://img.shields.io/badge/Abrir_demo-cardápio-B5401E?style=for-the-badge"/></a>
+  <a href="https://gustavo-pereiraa.github.io/demo-lanchonete/login"><img src="https://img.shields.io/badge/Abrir_demo-painel-2B1D16?style=for-the-badge"/></a>
+</p>
 
----
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white"/>
+  <img src="https://img.shields.io/badge/SQLAlchemy-D71F00?style=flat-square&logo=sqlalchemy&logoColor=white"/>
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white"/>
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black"/>
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white"/>
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white"/>
+  <img src="https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white"/>
+</p>
 
-## 1. Instalação
-
-### Pré-requisito
-Python 3.10 ou mais recente.
-
-### Passo a passo
-
-```bash
-# 1. Entre na pasta do projeto
-cd lanchonete_mvp
-
-# 2. Crie um ambiente virtual
-python -m venv .venv
-
-# 3. Ative o ambiente virtual
-source .venv/bin/activate        # Linux/Mac
-.venv\Scripts\activate           # Windows
-
-# 4. Instale as dependências
-pip install -r requirements.txt
-
-# 5. Copie o arquivo de variáveis de ambiente
-cp .env.example .env             # Windows: copy .env.example .env
-
-# 6. Crie o banco com dados de demonstração (categorias, produtos,
-#    clientes e pedidos de exemplo)
-flask --app app.py seed
-
-# 7. Rode o servidor
-python app.py
-```
-
-Acesse:
-- **Cliente:** http://localhost:5000
-- **Painel administrativo:** http://localhost:5000/admin
-
-Login do painel (criado pelo seed, definido no `.env`):
-```
-E-mail: dona@lanchonete.com
-Senha:  lanchonete123
-```
-
-> Troque a senha em produção editando `ADMIN_PASSWORD` no `.env` **antes**
-> de rodar o `seed` (o seed só cria o administrador na primeira vez).
-> Para recomeçar do zero, apague o arquivo `instance/lanchonete.db` e
-> rode o `seed` novamente.
+<p align="center"><img src="docs/pedidos-kanban.webp" width="900" alt="Painel com Kanban de pedidos"/></p>
 
 ---
 
-## 2. Estrutura de pastas
+## Sobre o projeto
 
-```
-lanchonete_mvp/
-├── app.py                 # Backend: modelos, rotas da API, autenticação, seed
-├── requirements.txt        # Dependências Python
-├── .env.example             # Modelo de variáveis de ambiente
-├── instance/
-│   └── lanchonete.db        # Banco SQLite (criado automaticamente, não versionar)
-├── templates/                # Páginas HTML renderizadas pelo Flask
-│   ├── customer.html          # Cardápio + carrinho + checkout (tela do cliente)
-│   ├── admin.html              # Painel: Kanban, Painel, Fechamento, Produtos, Clientes, Histórico
-│   └── login.html               # Login do painel
-└── static/
-    ├── css/style.css          # Estilo de todo o sistema
-    └── js/
-        ├── customer.js         # Lógica da tela do cliente (carrinho, checkout)
-        └── admin.js             # Lógica do painel (todas as abas)
-```
+Uma lanchonete familiar do interior de São Paulo atendia cerca de 20 pedidos por dia pelo WhatsApp, com anotações em papel e fechamento de caixa feito à mão. Desenvolvi um sistema web que organiza todo o fluxo: o cliente monta o pedido pelo cardápio online, a cozinha acompanha cada pedido em um quadro Kanban e a dona vê faturamento, produtos mais vendidos e fechamento por período.
 
-Tudo roda em um único processo Flask: as rotas que começam com `/api/`
-devolvem JSON (consumido pelo JavaScript do front-end); as demais rotas
-devolvem HTML renderizado pelo servidor.
+O sistema real está em produção (Flask + PostgreSQL). **Este repositório traz também uma versão de demonstração que roda 100% no navegador**, com nome e dados fictícios, para qualquer pessoa testar sem cadastro.
 
----
+## Como testar a demo
 
-## 3. Cardápio (dados de demonstração)
+1. Abra o **[cardápio](https://gustavo-pereiraa.github.io/demo-lanchonete/)**, adicione itens e finalize um pedido (pode usar dados inventados).
+2. Em outra aba, abra o **[painel](https://gustavo-pereiraa.github.io/demo-lanchonete/login)** e clique em **Entrar como demonstração**. Não precisa de e-mail nem senha.
+3. Veja seu pedido chegar na coluna **Novo** do Kanban e arraste-o pelas etapas. A página de acompanhamento do cliente também acompanha a mudança.
+4. Explore as abas **Painel**, **Fechamento**, **Produtos**, **Clientes** e **Histórico**.
 
-O `seed` cria 5 categorias, nesta ordem:
+Os pedidos ficam salvos só no seu navegador. O botão **Reiniciar demo**, no topo, volta tudo ao estado inicial.
 
-| Categoria         | Exemplos de itens                                              |
-|-------------------|------------------------------------------------------------------|
-| Lanche             | X-Burger, X-Salada, X-Bacon, X-Egg, X-Tudo, Misto Quente         |
-| Pastel             | Carne, Queijo, Frango c/ Catupiry, Pizza, Doce de Chocolate      |
-| Porção             | Batata Frita (P/G), Frango a Passarinho, Calabresa, Anéis de Cebola |
-| Batata Recheada    | Bacon e Cheddar, Calabresa, Frango c/ Catupiry, Completa          |
-| Bebidas            | Refrigerante, Suco Natural, Água Mineral                          |
+## Telas
 
-Você pode editar, desativar ou criar novos produtos e categorias direto
-pelo painel (aba **Produtos**) — nenhuma edição de código é necessária
-no dia a dia.
+| Cardápio e carrinho | Acompanhamento do pedido |
+|---|---|
+| <img src="docs/cardapio.webp" alt="Cardápio"/> | <img src="docs/acompanhar.webp" alt="Acompanhamento"/> |
+| **Dashboard** | **Fechamento de caixa** |
+| <img src="docs/painel.webp" alt="Dashboard"/> | <img src="docs/fechamento.webp" alt="Fechamento"/> |
 
----
+<p align="center"><img src="docs/mobile.webp" width="260" alt="Versão mobile"/><br><sub>Layout responsivo, pensado para o celular do cliente</sub></p>
 
-## 4. Funcionalidades
+## Como a demo funciona
+
+O front-end é o mesmo do sistema real. Na demo, o arquivo `js/mock-api.js` intercepta as chamadas para `/api/...` e responde no próprio navegador, simulando o back-end com os mesmos formatos de resposta e guardando os dados no `localStorage`. Assim a demo pode ser hospedada de graça como site estático (GitHub Pages), sem servidor nem banco de dados.
+
+| Pasta / arquivo | O que é |
+|---|---|
+| `index.html`, `admin.html`, `login.html`, `acompanhar.html`, `js/`, `css/` | Versão de demonstração (estática) |
+| `app.py`, `templates/`, `static/`, `tests/` | Versão completa com back-end Flask |
+
+## Funcionalidades
 
 **Cliente**
 - Cardápio por categoria, carrinho com observações por item
@@ -148,7 +104,7 @@ no dia a dia.
 - **Histórico:** todos os pedidos (inclusive cancelados), com filtros por
   status, tipo, pagamento, produto, cliente, canal e período
 
-## 5. Segurança
+## Segurança
 
 Este projeto passou por uma revisão de segurança completa. O que já está
 implementado:
@@ -177,21 +133,7 @@ implementado:
 - Aviso automático no console se `SECRET_KEY` ou `ADMIN_PASSWORD` ainda
   estiverem com o valor de exemplo em produção
 
-**Antes de publicar o site de verdade, você ainda precisa:**
-1. Definir `FLASK_DEBUG=false` no `.env` de produção (nunca deixe `true`
-   fora do seu computador — o modo debug expõe um console que permite
-   rodar código no servidor)
-2. Trocar `SECRET_KEY` e `ADMIN_PASSWORD` por valores próprios
-3. Rodar atrás de HTTPS (qualquer serviço de hospedagem moderno oferece
-   isso de graça — Railway, Render, PythonAnywhere, etc.)
-4. Usar um servidor de produção em vez do `python app.py`:
-   ```bash
-   gunicorn -w 2 -b 0.0.0.0:5000 app:app
-   ```
-   (o `gunicorn` já está no `requirements.txt`)
-5. Fazer backup periódico do arquivo `instance/lanchonete.db`
-
-## 6. Estrutura de dados
+## Modelo de dados
 
 Tabelas: `customer`, `category`, `product`, `order`, `order_item` e
 `order_status_history`. Cada item de pedido guarda uma "fotografia" do
@@ -208,6 +150,53 @@ recado), `store_hours` (horário por dia da semana), `order_tracking`
 (`pg_advisory_xact_lock`) evita que dois workers criem as tabelas ao
 mesmo tempo.
 
+## Rodando a versão completa (Flask)
+
+### Pré-requisito
+Python 3.10 ou mais recente.
+
+### Passo a passo
+
+```bash
+# 1. Entre na pasta do projeto
+cd demo-lanchonete
+
+# 2. Crie um ambiente virtual
+python -m venv .venv
+
+# 3. Ative o ambiente virtual
+source .venv/bin/activate        # Linux/Mac
+.venv\Scripts\activate           # Windows
+
+# 4. Instale as dependências
+pip install -r requirements.txt
+
+# 5. Copie o arquivo de variáveis de ambiente
+cp .env.example .env             # Windows: copy .env.example .env
+
+# 6. Crie o banco com dados de demonstração (categorias, produtos,
+#    clientes e pedidos de exemplo)
+flask --app app.py seed
+
+# 7. Rode o servidor
+python app.py
+```
+
+Acesse:
+- **Cliente:** http://localhost:5000
+- **Painel administrativo:** http://localhost:5000/admin
+
+Login do painel (criado pelo seed, definido no `.env`):
+```
+E-mail: dona@lanchonete.com
+Senha:  lanchonete123
+```
+
+> Troque a senha em produção editando `ADMIN_PASSWORD` no `.env` **antes**
+> de rodar o `seed` (o seed só cria o administrador na primeira vez).
+> Para recomeçar do zero, apague o arquivo `instance/lanchonete.db` e
+> rode o `seed` novamente.
+
 ## Testes
 
 Os testes usam sempre um SQLite temporário (nunca o `DATABASE_URL` do
@@ -218,20 +207,6 @@ pip install -r requirements-dev.txt
 python -m pytest tests
 ```
 
-## 7. Próximos passos sugeridos
+---
 
-- Trocar o SQLite por PostgreSQL/MySQL quando o volume de pedidos crescer
-  (basta definir `DATABASE_URL` no `.env`)
-- Adicionar fotos reais dos produtos (campo `image_url` já existe)
-- Exportar relatórios de fechamento em PDF além do CSV atual
-- Taxa de entrega por bairro (hoje é um valor fixo em `DELIVERY_FEE`)
-- Integração futura com WhatsApp/iFood (fora do escopo deste MVP)
-
-## v5 — Cardápio e horário
-
-- Cardápio atualizado com os lanches do Cantinho Santos.
-- Pastéis atualizados conforme o cardápio informado, com pastéis doces separados visualmente no fim da categoria.
-- Batatas recheadas atualizadas com preços e descrições.
-- Horários do sistema ajustados para o fuso `America/Sao_Paulo`.
-- Em bancos SQLite existentes do v4, a primeira execução do v5 corrige uma única vez os horários antigos gravados em UTC. Essa correção **nunca roda em PostgreSQL** (Supabase): o marcador dela fica em disco, e o disco do Render é apagado a cada deploy.
-- O comando `seed` agora sincroniza o cardápio sem apagar pedidos existentes; produtos antigos ficam inativos para preservar o histórico.
+<p align="center">Desenvolvido por <a href="https://github.com/gustavo-pereiraa">Gustavo Rocha Pereira</a> · <a href="https://www.linkedin.com/in/gustavo-rocha-pereira-3068983bb">LinkedIn</a></p>

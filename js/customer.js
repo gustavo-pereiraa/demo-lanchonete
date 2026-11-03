@@ -798,7 +798,7 @@ function showActiveOrder(o) {
     el.hidden = true;
     return;
   }
-  el.href = `/acompanhar?t=${encodeURIComponent(o.t)}`;
+  el.href = `acompanhar?t=${encodeURIComponent(o.t)}`;
   $('#activeOrderText').textContent = o.label || `Pedido #${String(o.n).padStart(3, '0')} — toque para acompanhar`;
   el.hidden = false;
 }

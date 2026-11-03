@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/demo.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/demo.css">
 </head>
 <body class="customer-page">
 <svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
@@ -62,7 +62,7 @@
 
 <header class="store-header">
   <div class="store-header__inner">
-    <a class="brand" href="/" aria-label="Lanche da Esquina, início">
+    <a class="brand" href="./" aria-label="Lanche da Esquina, início">
       <span class="brand-mark" aria-hidden="true">LE</span>
       <span class="brand-text"><strong>Lanche da Esquina</strong><span>Pastéis · Lanches · Batatas recheadas</span></span>
     </a>
@@ -75,7 +75,7 @@
 </header>
 
 <main id="menu" class="customer-shell" tabindex="-1">
-  <a class="active-order" id="activeOrder" href="/" hidden>
+  <a class="active-order" id="activeOrder" href="./" hidden>
     <svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>
     <span><strong>Você tem um pedido em andamento</strong><small id="activeOrderText">Toque para acompanhar</small></span>
     <span class="active-order__cta">Acompanhar<svg class="icon icon--sm" aria-hidden="true"><use href="#i-chevron-right"></use></svg></span>
@@ -96,7 +96,7 @@
       <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-pin"></use></svg>Entrega ou retirada</li>
       <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-card"></use></svg>Pix, cartão ou dinheiro</li>
     </ul>
-    <p class="demo-note"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-alert"></use></svg><span>Os pedidos desta demonstração são fictícios e não são enviados para nenhuma lanchonete. Quer ver o outro lado? <a href="/login" target="_blank" rel="noopener">Abra o painel da lanchonete</a> em outra aba e acompanhe seu pedido chegando.</span></p>
+    <p class="demo-note"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-alert"></use></svg><span>Os pedidos desta demonstração são fictícios e não são enviados para nenhuma lanchonete. Quer ver o outro lado? <a href="login" target="_blank" rel="noopener">Abra o painel da lanchonete</a> em outra aba e acompanhe seu pedido chegando.</span></p>
   </section>
 
   <nav class="category-nav" id="categoryNav" aria-label="Categorias do cardápio">
@@ -234,14 +234,14 @@
   <p class="success-number">Número do pedido<strong id="successNumber">#000</strong></p>
   <p id="successText"></p>
   <div class="success-actions">
-    <a class="btn btn--primary btn--block btn--lg" id="trackLink" href="/" hidden><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>Acompanhar meu pedido</a>
+    <a class="btn btn--primary btn--block btn--lg" id="trackLink" href="./" hidden><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>Acompanhar meu pedido</a>
     <button class="btn btn--ghost btn--block btn--lg" id="closeSuccess" type="button">Voltar ao cardápio</button>
   </div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="/js/mock-api.js"></script>
-<script src="/js/demo-bar.js"></script>
-<script src="/js/customer.js"></script>
+<script src="js/mock-api.js"></script>
+<script src="js/demo-bar.js"></script>
+<script src="js/customer.js"></script>
 </body>
 </html>

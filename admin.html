@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/demo.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/demo.css">
 </head>
 <body class="admin-body">
 <svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
@@ -72,7 +72,7 @@
     <button class="btn btn--ghost btn--sm" id="refreshBtn" type="button" aria-label="Atualizar dados">
       <svg class="icon icon--sm" aria-hidden="true"><use href="#i-refresh"></use></svg><span class="btn-text">Atualizar</span>
     </button>
-    <a class="btn btn--quiet btn--sm" href="/login" aria-label="Sair do painel">
+    <a class="btn btn--quiet btn--sm" href="login" aria-label="Sair do painel">
       <svg class="icon icon--sm" aria-hidden="true"><use href="#i-logout"></use></svg><span class="btn-text">Sair</span>
     </a>
   </div>
@@ -100,7 +100,7 @@
   <section id="ordersTab" role="tabpanel" aria-labelledby="ordersTabTitle">
     <div class="section-head">
       <div><h2 id="ordersTabTitle">Pedidos em andamento</h2><p>Arraste o pedido para outra coluna ou toque nele para ver detalhes e mudar a etapa.</p>
-        <p class="demo-note"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-bell"></use></svg><span>Demonstração: <a href="/" target="_blank" rel="noopener">abra o cardápio em outra aba</a>, faça um pedido e veja ele chegar aqui.</span></p></div>
+        <p class="demo-note"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-bell"></use></svg><span>Demonstração: <a href="./" target="_blank" rel="noopener">abra o cardápio em outra aba</a>, faça um pedido e veja ele chegar aqui.</span></p></div>
       <button class="btn btn--primary" id="newOrderBtn" type="button"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-plus"></use></svg>Novo pedido</button>
     </div>
     <div class="kanban" id="kanban" aria-live="polite"></div>
@@ -357,8 +357,8 @@
 <div class="overlay" id="adminOverlay"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="printTicket"></div>
-<script src="/js/mock-api.js"></script>
-<script src="/js/demo-bar.js"></script>
-<script src="/js/admin.js"></script>
+<script src="js/mock-api.js"></script>
+<script src="js/demo-bar.js"></script>
+<script src="js/admin.js"></script>
 </body>
 </html>

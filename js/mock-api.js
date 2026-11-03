@@ -875,7 +875,7 @@
     const order = createOrderRecord(db, customer, f, subtotal, prepared, changeFor, 'online');
     return {
       status: 201,
-      body: { order: orderDict(db, order), message: 'Pedido recebido com sucesso!', tracking_token: order.token, tracking_url: `/acompanhar?t=${encodeURIComponent(order.token)}` },
+      body: { order: orderDict(db, order), message: 'Pedido recebido com sucesso!', tracking_token: order.token, tracking_url: `acompanhar?t=${encodeURIComponent(order.token)}` },
       save: true,
     };
   });

@@ -19,7 +19,7 @@
     if (!confirm('Reiniciar a demonstração? Tudo o que você fez aqui será apagado e os dados iniciais voltam.')) return;
     window.DemoAPI?.reset();
     // A página de acompanhamento aponta para um pedido que deixa de existir
-    if (document.body.classList.contains('track-page')) window.location.replace('/');
+    if (document.body.classList.contains('track-page')) window.location.replace('./');
     else window.location.reload();
   });
 })();
